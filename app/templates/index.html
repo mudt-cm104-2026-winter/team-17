@@ -3,28 +3,51 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Things to bring</title>
+  <title>Movie and Book Ratings</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
   <main>
-    <h1>Things to bring</h1>
-    <p class="intro">Who brings what to our team evening?</p>
+    <h1>Ratings</h1>
+    <p class="intro">Rate the movies and books?</p>
 
     <form class="add" action="/add" method="post">
-      <input name="thing" placeholder="What?" required autocomplete="off" autofocus>
-      <input name="person" placeholder="Who?" required autocomplete="off">
+      <input name="thing" placeholder="Movie/Book name?" required autocomplete="off" autofocus>
+      <input name="rating" placeholder="Your rating out of 10?" required autocomplete="off">
       <button type="submit">Add</button>
     </form>
 
     {% if entries %}
+    <form class="sort" action="/" method="get">
+      <label for="sort">Sort by</label>
+      <select id="sort" name="sort">
+        <option value="title" {% if sort == "title" %}selected{% endif %}>Title (A-Z)</option>
+        <option value="rating_asc" {% if sort == "rating_asc" %}selected{% endif %}>Rating (low to high)</option>
+        <option value="rating_desc" {% if sort == "rating_desc" %}selected{% endif %}>Rating (high to low)</option>
+      </select>
+      <button type="submit">Sort</button>
+    </form>
+
     <table>
       <thead>
-        <tr><th>What</th><th>Who</th></tr>
+        <tr><th>Movie/Book Name</th><th>Rating</th><th>Actions</th></tr>
       </thead>
       <tbody>
         {% for entry in entries %}
-        <tr><td>{{ entry.thing }}</td><td>{{ entry.person }}</td></tr>
+        <tr>
+          <td>{{ entry.thing }}</td>
+          <td>{{ entry.rating }}</td>
+          <td>
+            <div class="actions">
+              <a class="button edit-button" href="/edit/{{ entry.id }}?sort={{ sort }}">Edit</a>
+              <form action="/remove" method="post">
+                <input type="hidden" name="entry_id" value="{{ entry.id }}">
+                <input type="hidden" name="sort" value="{{ sort }}">
+                <button class="remove" type="submit">Remove</button>
+              </form>
+            </div>
+          </td>
+        </tr>
         {% endfor %}
       </tbody>
     </table>
