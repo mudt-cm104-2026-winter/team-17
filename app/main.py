@@ -30,6 +30,24 @@ SORT_OPTIONS = ("title", "rating_asc", "rating_desc")
 def valid_sort(sort):
     return sort if sort in SORT_OPTIONS else "title"
 
+def validate_rating(rating):
+    rating = rating.strip()
+
+    try:
+        number = float(rating)
+    except ValueError:
+        raise HTTPException(
+            status_code=400,
+            detail="Rating must be a number between 0 and 10."
+        )
+
+    if not 0 <= number <= 10:
+        raise HTTPException(
+            status_code=400,
+            detail="Rating must be between 0 and 10."
+        )
+
+    return rating
 
 @app.get("/")
 def show_list(request: Request, sort: str = "title"):
@@ -45,7 +63,7 @@ def show_list(request: Request, sort: str = "title"):
 @app.post("/add")
 def add(thing: str = Form(...), rating: str = Form(...)):
     """The form on the start page sends its fields here."""
-    storage.add_entry(thing=thing.strip(), rating=rating.strip())
+    storage.add_entry(thing=thing.strip(), rating=validate_rating(rating))
     # Back to the start page. 303 tells the browser: load it with GET.
     return RedirectResponse("/", status_code=303)
 
@@ -70,7 +88,7 @@ def edit(
     sort: str = Form("title"),
 ):
     """Update an existing rating and return to the current sort order."""
-    if not storage.update_entry(entry_id, thing.strip(), rating.strip()):
+    if not storage.update_entry(entry_id, thing.strip(), validate_rating(rating)):
         raise HTTPException(status_code=404, detail="Rating not found")
     return RedirectResponse(f"/?sort={valid_sort(sort)}", status_code=303)
 

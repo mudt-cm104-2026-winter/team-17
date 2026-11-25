@@ -13,7 +13,7 @@
       <label for="thing">Movie or book</label>
       <input id="thing" name="thing" value="{{ entry.thing }}" required autocomplete="off">
       <label for="rating">Your rating out of 10</label>
-      <input id="rating" name="rating" value="{{ entry.rating }}" required autocomplete="off">
+      <input type="number" id="rating" name="rating" min="0" max="10" step="any" value="{{ entry.rating }}" required autocomplete="off">
       <input type="hidden" name="sort" value="{{ sort }}">
       <div class="edit-actions">
         <button type="submit">Save changes</button>
