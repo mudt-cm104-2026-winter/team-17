@@ -17,10 +17,56 @@ def all_entries():
     return list(_entries)
 
 
-def add_entry(thing, person):
+def add_entry(thing, rating):
     """Store a new entry and return it."""
     global _next_id
-    entry = {"id": _next_id, "thing": thing, "person": person}
+    entry = {"id": _next_id, "thing": thing, "rating": rating}
     _entries.append(entry)
     _next_id += 1
     return entry
+
+
+def entry_by_id(entry_id):
+    """Return one entry by ID, or None if it does not exist."""
+    return next((entry for entry in _entries if entry["id"] == entry_id), None)
+
+
+def update_entry(entry_id, thing, rating):
+    """Update an entry by ID; return whether an entry was found."""
+    entry = entry_by_id(entry_id)
+    if entry is None:
+        return False
+    entry["thing"] = thing
+    entry["rating"] = rating
+    return True
+
+
+def remove_entry(entry_id):
+    """Remove an entry by its ID; return whether an entry was found."""
+    for index, entry in enumerate(_entries):
+        if entry["id"] == entry_id:
+            del _entries[index]
+            return True
+    return False
+
+
+def sorted_entries(sort_by="title"):
+    """Return entries sorted by title or rating without changing stored order."""
+    entries = all_entries()
+    if sort_by == "rating_asc":
+        entries.sort(key=lambda entry: _rating_sort_key(entry["rating"]))
+    elif sort_by == "rating_desc":
+        entries.sort(
+            key=lambda entry: _rating_sort_key(entry["rating"], descending=True)
+        )
+    else:
+        entries.sort(key=lambda entry: entry["thing"].casefold())
+    return entries
+
+
+def _rating_sort_key(value, descending=False):
+    try:
+        rating = float(value)
+    except (TypeError, ValueError):
+        return (1, str(value).casefold())
+    return (0, -rating if descending else rating)
