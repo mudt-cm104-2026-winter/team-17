@@ -24,3 +24,34 @@ def add_entry(thing, person):
     _entries.append(entry)
     _next_id += 1
     return entry
+
+
+def remove_entry(entry_id):
+    """Remove an entry by its ID; return whether an entry was found."""
+    for index, entry in enumerate(_entries):
+        if entry["id"] == entry_id:
+            del _entries[index]
+            return True
+    return False
+
+
+def sorted_entries(sort_by="title"):
+    """Return entries sorted by title or rating without changing stored order."""
+    entries = all_entries()
+    if sort_by == "rating_asc":
+        entries.sort(key=lambda entry: _rating_sort_key(entry["person"]))
+    elif sort_by == "rating_desc":
+        entries.sort(
+            key=lambda entry: _rating_sort_key(entry["person"], descending=True)
+        )
+    else:
+        entries.sort(key=lambda entry: entry["thing"].casefold())
+    return entries
+
+
+def _rating_sort_key(value, descending=False):
+    try:
+        rating = float(value)
+    except (TypeError, ValueError):
+        return (1, str(value).casefold())
+    return (0, -rating if descending else rating)
