@@ -50,6 +50,31 @@ def add(thing: str = Form(...), person: str = Form(...)):
     return RedirectResponse("/", status_code=303)
 
 
+@app.get("/edit/{entry_id}")
+def edit_form(request: Request, entry_id: int, sort: str = "title"):
+    """Show the form for editing an existing rating."""
+    entry = storage.entry_by_id(entry_id)
+    if entry is None:
+        raise HTTPException(status_code=404, detail="Rating not found")
+    sort = valid_sort(sort)
+    return templates.TemplateResponse(
+        request, "edit.html", {"entry": entry, "sort": sort}
+    )
+
+
+@app.post("/edit/{entry_id}")
+def edit(
+    entry_id: int,
+    thing: str = Form(...),
+    person: str = Form(...),
+    sort: str = Form("title"),
+):
+    """Update an existing rating and return to the current sort order."""
+    if not storage.update_entry(entry_id, thing.strip(), person.strip()):
+        raise HTTPException(status_code=404, detail="Rating not found")
+    return RedirectResponse(f"/?sort={valid_sort(sort)}", status_code=303)
+
+
 @app.post("/remove")
 def remove(entry_id: int = Form(...), sort: str = Form("title")):
     """Remove an entry and return to the current sort order."""

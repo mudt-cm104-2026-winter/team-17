@@ -26,6 +26,21 @@ def add_entry(thing, person):
     return entry
 
 
+def entry_by_id(entry_id):
+    """Return one entry by ID, or None if it does not exist."""
+    return next((entry for entry in _entries if entry["id"] == entry_id), None)
+
+
+def update_entry(entry_id, thing, person):
+    """Update an entry by ID; return whether an entry was found."""
+    entry = entry_by_id(entry_id)
+    if entry is None:
+        return False
+    entry["thing"] = thing
+    entry["person"] = person
+    return True
+
+
 def remove_entry(entry_id):
     """Remove an entry by its ID; return whether an entry was found."""
     for index, entry in enumerate(_entries):
