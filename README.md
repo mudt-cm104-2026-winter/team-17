@@ -27,8 +27,9 @@ The entries are kept in memory: after a restart the list is empty again.
 No real names: this repository is public. -->
 
 | GitHub | Role |
-|ssedaat |review and fixes|
-|kadirefeekinci| coding|
+| ssedaat | Review and fixes |
+| kadirefeekinci | Coding |
+| jonnyt296-cmd | Coding and testing |
 
 ## How we work
 
