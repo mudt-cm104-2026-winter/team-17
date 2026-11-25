@@ -1,11 +1,10 @@
 # Team project
 
-<!-- Replace the title with your project name. -->
+Movie and Book ratings
 
 ## What this is
 
-<!-- One or two sentences: what does your app do, and who is it for?
-Right now it is the example "Things to bring". Replace it with your topic. -->
+this is where you can write down the movie or book you have seen/read and rate them for other peoples referal
 
 ## How to run it
 
@@ -28,7 +27,8 @@ The entries are kept in memory: after a restart the list is empty again.
 No real names: this repository is public. -->
 
 | GitHub | Role |
-|---|---|
+|ssedaat |review and fixes|
+|kadirefeekinci| coding|
 
 ## How we work
 
