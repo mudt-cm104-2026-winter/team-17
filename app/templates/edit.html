@@ -12,8 +12,8 @@
     <form class="edit" action="/edit/{{ entry.id }}" method="post">
       <label for="thing">Movie or book</label>
       <input id="thing" name="thing" value="{{ entry.thing }}" required autocomplete="off">
-      <label for="person">Your rating out of 10</label>
-      <input id="person" name="person" value="{{ entry.person }}" required autocomplete="off">
+      <label for="rating">Your rating out of 10</label>
+      <input id="rating" name="rating" value="{{ entry.rating }}" required autocomplete="off">
       <input type="hidden" name="sort" value="{{ sort }}">
       <div class="edit-actions">
         <button type="submit">Save changes</button>

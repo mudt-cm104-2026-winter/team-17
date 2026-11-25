@@ -13,7 +13,7 @@
 
     <form class="add" action="/add" method="post">
       <input name="thing" placeholder="Movie/Book name?" required autocomplete="off" autofocus>
-      <input name="person" placeholder="Your rating out of 10?" required autocomplete="off">
+      <input name="rating" placeholder="Your rating out of 10?" required autocomplete="off">
       <button type="submit">Add</button>
     </form>
 
@@ -36,7 +36,7 @@
         {% for entry in entries %}
         <tr>
           <td>{{ entry.thing }}</td>
-          <td>{{ entry.person }}</td>
+          <td>{{ entry.rating }}</td>
           <td>
             <div class="actions">
               <a class="button edit-button" href="/edit/{{ entry.id }}?sort={{ sort }}">Edit</a>

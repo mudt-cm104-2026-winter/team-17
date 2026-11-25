@@ -43,9 +43,9 @@ def show_list(request: Request, sort: str = "title"):
 
 
 @app.post("/add")
-def add(thing: str = Form(...), person: str = Form(...)):
+def add(thing: str = Form(...), rating: str = Form(...)):
     """The form on the start page sends its fields here."""
-    storage.add_entry(thing=thing.strip(), person=person.strip())
+    storage.add_entry(thing=thing.strip(), rating=rating.strip())
     # Back to the start page. 303 tells the browser: load it with GET.
     return RedirectResponse("/", status_code=303)
 
@@ -66,11 +66,11 @@ def edit_form(request: Request, entry_id: int, sort: str = "title"):
 def edit(
     entry_id: int,
     thing: str = Form(...),
-    person: str = Form(...),
+    rating: str = Form(...),
     sort: str = Form("title"),
 ):
     """Update an existing rating and return to the current sort order."""
-    if not storage.update_entry(entry_id, thing.strip(), person.strip()):
+    if not storage.update_entry(entry_id, thing.strip(), rating.strip()):
         raise HTTPException(status_code=404, detail="Rating not found")
     return RedirectResponse(f"/?sort={valid_sort(sort)}", status_code=303)
 

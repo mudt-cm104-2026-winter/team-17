@@ -17,10 +17,10 @@ def all_entries():
     return list(_entries)
 
 
-def add_entry(thing, person):
+def add_entry(thing, rating):
     """Store a new entry and return it."""
     global _next_id
-    entry = {"id": _next_id, "thing": thing, "person": person}
+    entry = {"id": _next_id, "thing": thing, "rating": rating}
     _entries.append(entry)
     _next_id += 1
     return entry
@@ -31,13 +31,13 @@ def entry_by_id(entry_id):
     return next((entry for entry in _entries if entry["id"] == entry_id), None)
 
 
-def update_entry(entry_id, thing, person):
+def update_entry(entry_id, thing, rating):
     """Update an entry by ID; return whether an entry was found."""
     entry = entry_by_id(entry_id)
     if entry is None:
         return False
     entry["thing"] = thing
-    entry["person"] = person
+    entry["rating"] = rating
     return True
 
 
@@ -54,10 +54,10 @@ def sorted_entries(sort_by="title"):
     """Return entries sorted by title or rating without changing stored order."""
     entries = all_entries()
     if sort_by == "rating_asc":
-        entries.sort(key=lambda entry: _rating_sort_key(entry["person"]))
+        entries.sort(key=lambda entry: _rating_sort_key(entry["rating"]))
     elif sort_by == "rating_desc":
         entries.sort(
-            key=lambda entry: _rating_sort_key(entry["person"], descending=True)
+            key=lambda entry: _rating_sort_key(entry["rating"], descending=True)
         )
     else:
         entries.sort(key=lambda entry: entry["thing"].casefold())
