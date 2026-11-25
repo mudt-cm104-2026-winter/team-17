@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edit Rating</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main>
+    <h1>Edit Rating</h1>
+    <form class="edit" action="/edit/{{ entry.id }}" method="post">
+      <label for="thing">Movie or book</label>
+      <input id="thing" name="thing" value="{{ entry.thing }}" required autocomplete="off">
+      <label for="rating">Your rating out of 10</label>
+      <input id="rating" name="rating" value="{{ entry.rating }}" required autocomplete="off">
+      <input type="hidden" name="sort" value="{{ sort }}">
+      <div class="edit-actions">
+        <button type="submit">Save changes</button>
+        <a href="/?sort={{ sort }}">Cancel</a>
+      </div>
+    </form>
+  </main>
+</body>
+</html>
