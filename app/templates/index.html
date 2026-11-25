@@ -17,6 +17,7 @@
       <button type="submit">Add</button>
     </form>
 
+    <p>Total entries: {{ entries|length }}</p>
     {% if entries %}
     <form class="sort" action="/" method="get">
       <label for="sort">Sort by</label>
